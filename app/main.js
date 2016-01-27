@@ -1,6 +1,5 @@
 'use strict';
 const electron = require('electron');
-//electron.hideInternalModules(); // http://electron.atom.io/docs/v0.36.5/api/synopsis/#disable-old-styles-of-using-built-in-modules
 const ipcMain = electron.ipcMain;
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
@@ -14,7 +13,7 @@ function createWindow () {
   mainWindow.loadURL('file://' + __dirname + '/index.html');
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', function() {
     mainWindow = null;
@@ -50,4 +49,19 @@ ipcMain.on('url-submit', function(event, url, un, pw) {
     }
   });
 
+});
+
+const screenshot = require('electron-screenshot-app');
+const fs = require('fs');
+
+ipcMain.on('capture-submit', function(event, url) {
+  screenshot({
+      url: url,
+      width: 1920,
+      height: 1080,
+      page: true
+    },
+    function(err, image){
+      fs.writeFileSync('screenshot.png', image.data);
+    })
 });

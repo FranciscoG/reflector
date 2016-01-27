@@ -10,7 +10,7 @@ window.addEventListener('offline',  updateOnlineStatus);
 
 updateOnlineStatus();
 
-
+/* demo spidering */
 var url = document.getElementById('url');
 var un = document.getElementById('un');
 var pw = document.getElementById('pw');
@@ -27,3 +27,14 @@ ipcRenderer.on('url-fetched', function(event, arg) {
   // for now doc write but do something better eventually
   document.writeln(`<p>${arg}</p>`); // prints "pong"
 });
+
+/* demo screenshot */
+var capUrl = document.getElementById('capUrl');
+var capture = document.getElementById('capture');
+
+var handleCaptureSubmit = function(e){
+  e.preventDefault();
+  console.log( capUrl.value );
+  ipcRenderer.send('capture-submit', capUrl.value);
+};
+capture.addEventListener('click', handleCaptureSubmit);
