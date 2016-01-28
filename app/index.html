@@ -3,23 +3,37 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
-    <style>
-      input { padding: 8px; width: 70%; }
-    </style>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/photon.min.css">
+
   </head>
   <body>
-    <input type="text" id="url" />
-    <input type="text" id="un" />
-    <input type="text" id="pw" />
 
-    <button id="submit">spider</button>
+    <div class="window">
+      <div class="window-content">
 
-    <br>
-    <input type="text" id="capUrl" />
-    <button id="capture">capture</button>
+        <div class="pane-group">
+          <div class="pane-one-fourth sidebar">
+            <p>Sidebar maybe</p>
+          </div>
+          <div class="pane">
+            <input type="text" id="url" />
+            <input type="text" id="un" />
+            <input type="text" id="pw" />
+
+            <button id="submit">spider</button>
+
+            <br>
+            <input type="text" id="capUrl" />
+            <button id="capture">capture</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
 
-
-    <script src="js/index.js"></script>
+    <script src="js/index.js" charset="utf-8"></script>
   </body>
 </html>
