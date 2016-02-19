@@ -38,28 +38,3 @@ var handleCaptureSubmit = function(e){
   ipcRenderer.send('capture-submit', capUrl.value);
 };
 capture.addEventListener('click', handleCaptureSubmit);
-
-
-/*
-
-Current TODO:
-
-global options 
-- set save folder (have default)
-- filename prefix
-- base width of screenshot
-- http basic auth login
-- http basic auth password
-
-URL options:
-Array of Objects: [
-  { 
-    url
-    filename
-    width - override global width, also for cropping
-    height - override global height, also for cropping
-    cropX - crop X start position
-    cropY - crop Y start position
-  }
-]
-*/

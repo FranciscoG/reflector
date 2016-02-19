@@ -52,37 +52,9 @@ ipcMain.on('url-submit', function(event, url, un, pw) {
 });
 
 /* screenshot stuff */
-const screenshot = require('electron-screenshot-app');
-const fs = require('fs');
-
-function saveImg(err, image) {
-  fs.writeFileSync('screenshot.png', image.data);
-}
-
-
-function screenShotFirstPass(err, image, url) {
-  screenshot(
-    {
-      url: url,
-      width: 320,
-      height: image.size.height
-    },
-    saveImg
-  )
-}
-
+var Screenshot = require('./lib/screenshot.js');
 ipcMain.on('capture-submit', function(event, url) {
-
-  screenshot(
-    {
-      url: url,
-      width: 1000,
-      height: 0,
-      page: true
-    },
-    function(err, image) {
-      screenShotFirstPass(err, image, url);
-    }
-  )
-
+  
+  var ss = new Screenshot({url: url});
+  ss.run();
 });
