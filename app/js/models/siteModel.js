@@ -29,32 +29,6 @@ class SiteModel {
     return this.opts.urls;
   }
 
-  set urls(urlObj) {
-    if (urlObj.url) {
-
-      let urlDefaults = {
-        filename : "", // string
-        width: null, // number
-        height: null, // number
-        crop : null // object
-      };
-
-      var currentUrlObj = Object.assign({}, urlDefaults, urlObj);
-
-      // add in the protocol if it's missing
-      if (!/^https?:\/\//i.test(this.opts.url)) {
-        currentUrlObj.url = "http://" + currentUrlObj.url;
-      }
-
-      if (this.opts.login && this.opts.password) {
-         let x = currentUrlObj.url.split("//");
-         currentUrlObj.url = `${x[0]}//${this.opts.login}:${this.opts.password}@${x[1]}`;
-      }
-
-      this.opts.urls.push(currentUrlObj);
-    }
-  }
-
   export() {
     return this.opts;
   }

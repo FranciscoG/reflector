@@ -4,16 +4,40 @@ const ipcMain = electron.ipcMain;
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
-var onlineStatusWindow;
+var env = require('./vendor/env_config')
+var devHelper = require('./vendor/dev_helper')
+var windowStateKeeper = require('./vendor/window_state')
 
+var onlineStatusWindow;
 let mainWindow;
 
+var mainWindowState = windowStateKeeper('main', {
+  width: 1000,
+  height: 700
+});
+
 function createWindow () {
-  mainWindow = new BrowserWindow({width: 1000, height: 700});
+  mainWindow = new BrowserWindow({
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height
+  });
+  
+  if (mainWindowState.isMaximized) {
+    mainWindow.maximize()
+  }
+
   mainWindow.loadURL('file://' + __dirname + '/index.html');
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  if (env.name !== 'production') {
+    devHelper.setDevMenu()
+    mainWindow.openDevTools()
+  }
+
+  mainWindow.on('close', function () {
+    mainWindowState.saveState(mainWindow)
+  })
 
   mainWindow.on('closed', function() {
     mainWindow = null;
@@ -58,3 +82,9 @@ ipcMain.on('capture-submit', function(event, url) {
   var ss = new Screenshot({url: url});
   ss.run();
 });
+
+
+/*
+shell.showItemInFolder('~/projects/reflector/app/screenshot.png');
+const shell = require('electron').shell;
+ */

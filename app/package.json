@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "description": "Reflector - An Electron app to take multiple website screenshots at once",
   "main": "main.js",
-  "scripts": {
-    "start": "electron main.js"
+  "config": {
+    "target": "development"
   },
   "repository": {
     "type": "git",
@@ -22,11 +22,9 @@
     "url": "https://github.com/FranciscoG/reflector/issues"
   },
   "homepage": "https://github.com/FranciscoG/reflector",
-  "devDependencies": {
-    "electron-prebuilt": "^0.36.0"
-  },
   "dependencies": {
     "electron-screenshot-app": "^2.0.0",
+    "fs-jetpack": "^0.7.1",
     "simplecrawler": "^0.5.4"
   }
 }
