@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "node ./tasks/start"
+    "start": "node ./tasks/start",
+    "riot" : "riot --watch ./app/js/tags ./app/js/tags.js"
   },
   "devDependencies": {
     "electron-prebuilt": "^0.36.8",

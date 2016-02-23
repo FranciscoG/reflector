@@ -29,7 +29,7 @@ var runRiotWatch = function () {
 };
 
 var runApp = function () {
-  runRiotWatch();
+  // runRiotWatch();
 
   var configFilePath = projectDir.path('config/env_' + utils.getEnvName() + '.json');
   destDir.remove('env_config.json');
