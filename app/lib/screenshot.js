@@ -20,7 +20,7 @@ class TakeAShot {
       nodeIntegration : false, // This will enable node integration in the electron window, be careful because this can open up some serious security issues.
       secure: true, // This will enable/disable web security in the electron window
       loadevent: void(0), // The name of a custom page side event which can be used to trigger the page capture. Useful for JS heavy sites
-      format: "png",  // only jpeg or png supported
+      format: "jpeg",  // only jpeg or png supported
       quality: 80, // If format is 'jpeg', defines the quality of the image '0-100'
 
       // my change to the defaults
@@ -52,7 +52,7 @@ class TakeAShot {
     return this._filename;
   }
   set fileName(name) {
-    this._filename = name;
+    this._filename = name + '.' + this.opts.format;
   }
   
   saveImg (err, image) {
@@ -69,10 +69,18 @@ class TakeAShot {
   }
 
   run(){
-    screenshot(
-      this.opts,
-      this.screenShotToGetHeight.bind(this)
-    );
+    if (!this.opts.page) {
+      screenshot(
+        this.opts,
+        this.saveImg.bind(this)
+      );
+    } else {
+      screenshot(
+        this.opts,
+        this.screenShotToGetHeight.bind(this)
+      );
+    }
+    
   }
 }
 

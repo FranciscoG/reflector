@@ -24,7 +24,6 @@
   "homepage": "https://github.com/FranciscoG/reflector",
   "dependencies": {
     "electron-screenshot-app": "^2.0.0",
-    "fs-jetpack": "^0.7.1",
     "simplecrawler": "^0.5.4"
   }
 }

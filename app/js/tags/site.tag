@@ -1,16 +1,18 @@
 <site>
   <input type="text" class="site-root-url" />
 
-  <input type="text" class="site-un" />
-  <input type="text" class="site-pw" />
-  <input type="text" class="site-output-path" />
-  <input type="text" class="site-filename-prefix" />
-  <input type="number" class="site-width" />
+  <input type="text" placeholder="login" class="site-un" value={ opts.login || '' } />
+  <input type="text" placeholder="password" class="site-pw" value={ opts.password || '' } />
+  <input type="text" placeholder="screenshot" class="site-filename-prefix" value={ opts.filename || 'screenshot' } />
+  <input type="number" placeholder="1000" class="site-width" value={ opts.width || '1000' } />
 
+  <p class="site-output-path">{ opts.outputFolder || '' }</p>
+
+  <button id="savePath" onClick={ showDialog }>save to</button>
   <button id="submit" onClick={ startSpider }>begin spider</button>
 
-  <script> 
-    //const ipcRenderer = require('electron').ipcRenderer;
+  <script>
+    var self = this;
 
     startSpider(e) {
       e.preventDefault();
@@ -23,5 +25,19 @@
     ipcRenderer.on('url-fetched', function(event, arg) {
       document.writeln(`<p>${arg}</p>`); 
     });
+
+    showDialog(e) {
+      var myDialogOptions = {
+        title: "choose a folder",
+        properties: [ 'openDirectory' ]
+      };
+      ipcRenderer.send('open-dialog', myDialogOptions, 'get-save-path');
+    }
+
+    ipcRenderer.on('get-save-path', function(event, dirArray) {
+      console.log(dirArray);
+      self.root.querySelector('.site-output-path').textContent = dirArray[0];
+    });
+
   </script>
 </site>

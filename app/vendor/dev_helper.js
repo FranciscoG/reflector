@@ -11,7 +11,8 @@ module.exports.setDevMenu = function () {
             label: 'Reload',
             accelerator: 'CmdOrCtrl+R',
             click: function () {
-                BrowserWindow.getFocusedWindow().reloadIgnoringCache();
+                var win = BrowserWindow.getFocusedWindow();
+                win.webContents.reloadIgnoringCache();
             }
         },{
             label: 'Toggle DevTools',

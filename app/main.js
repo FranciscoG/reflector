@@ -3,10 +3,12 @@ const electron = require('electron');
 const ipcMain = electron.ipcMain;
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+const dialog = require('electron').dialog;
+const shell = require('electron').shell;
 
-var env = require('./vendor/env_config')
-var devHelper = require('./vendor/dev_helper')
-var windowStateKeeper = require('./vendor/window_state')
+var env = require('./vendor/env_config');
+var devHelper = require('./vendor/dev_helper');
+var windowStateKeeper = require('./vendor/window_state');
 
 var onlineStatusWindow;
 let mainWindow;
@@ -25,19 +27,19 @@ function createWindow () {
   });
   
   if (mainWindowState.isMaximized) {
-    mainWindow.maximize()
+    mainWindow.maximize();
   }
 
   mainWindow.loadURL('file://' + __dirname + '/index.html');
 
   if (env.name !== 'production') {
-    devHelper.setDevMenu()
-    mainWindow.openDevTools()
+    devHelper.setDevMenu();
+    mainWindow.openDevTools();
   }
 
   mainWindow.on('close', function () {
-    mainWindowState.saveState(mainWindow)
-  })
+    mainWindowState.saveState(mainWindow);
+  });
 
   mainWindow.on('closed', function() {
     mainWindow = null;
@@ -58,6 +60,8 @@ app.on('activate', function () {
   }
 });
 
+/***********************************************************/
+
 ipcMain.on('online-status-changed', function(event, status) {
   onlineStatusWindow = status;
   console.log(status);
@@ -77,14 +81,22 @@ ipcMain.on('url-submit', function(event, url, un, pw) {
 
 /* screenshot stuff */
 var Screenshot = require('./lib/screenshot.js');
-ipcMain.on('capture-submit', function(event, url) {
+ipcMain.on('capture-submit', function(event, options, path, filename) {
   
-  var ss = new Screenshot({url: url});
+  var ss = new Screenshot(options);
+  if (path) {
+    ss.filePath = path;
+  }
+  if (filename && filename !== '') {
+    ss.fileName = filename;
+  }
   ss.run();
+  
+  shell.showItemInFolder(path);
 });
 
-
-/*
-shell.showItemInFolder('~/projects/reflector/app/screenshot.png');
-const shell = require('electron').shell;
- */
+ipcMain.on('open-dialog', function(event, dialogOptions, returnEvent) {
+  dialog.showOpenDialog(dialogOptions, function(filenames){
+    event.sender.send(returnEvent, filenames);
+  });
+});
