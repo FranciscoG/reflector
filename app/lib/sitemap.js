@@ -19,7 +19,7 @@ function SpiderGwen(opts) {
   let myCrawler = new Crawler(opts.url.replace(/^https?:\/\//i, ''));
 
   let conditionID = myCrawler.addFetchCondition(function(parsedURL) {
-      return !parsedURL.uriPath.match(/\.(css|js|eot|ttf|svg|ico)$/i);
+      return !parsedURL.uriPath.match(/\.(css|js|eot|ttf|svg)$/i);
   });
   let excludeImages = myCrawler.addFetchCondition(function(parsedURL) {
       return !parsedURL.uriPath.match(/\.(png|jpe?g|gif)$/i);

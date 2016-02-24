@@ -1,0 +1,9 @@
+
+.online-status {
+  color: #fc605b;
+  margin: 0 10px;
+  float: right;
+}
+.online-status.online {
+  color: #34c84a;
+}

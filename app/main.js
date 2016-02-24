@@ -5,9 +5,11 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const dialog = require('electron').dialog;
 const shell = require('electron').shell;
+var Menu = require("menu");
 
 var env = require('./vendor/env_config');
 var devHelper = require('./vendor/dev_helper');
+var myMenu = require('./lib/shortkeys.js');
 var windowStateKeeper = require('./vendor/window_state');
 
 var onlineStatusWindow;
@@ -33,9 +35,14 @@ function createWindow () {
   mainWindow.loadURL('file://' + __dirname + '/index.html');
 
   if (env.name !== 'production') {
-    devHelper.setDevMenu();
+    myMenu.push(devHelper)
     mainWindow.openDevTools();
   }
+  
+  /*********************************/
+  var menu = Menu.buildFromTemplate(myMenu);
+  Menu.setApplicationMenu(menu);
+  /*********************************/
 
   mainWindow.on('close', function () {
     mainWindowState.saveState(mainWindow);
@@ -44,6 +51,8 @@ function createWindow () {
   mainWindow.on('closed', function() {
     mainWindow = null;
   });
+
+  
 }
 
 app.on('ready', createWindow);
@@ -95,6 +104,9 @@ ipcMain.on('capture-submit', function(event, options, path, filename) {
   shell.showItemInFolder(path);
 });
 
+/**
+ * https://github.com/atom/electron/blob/master/docs/api/dialog.md
+ */
 ipcMain.on('open-dialog', function(event, dialogOptions, returnEvent) {
   dialog.showOpenDialog(dialogOptions, function(filenames){
     event.sender.send(returnEvent, filenames);

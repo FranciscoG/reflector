@@ -1,5 +1,8 @@
 <site>
-  <input type="text" class="site-root-url" />
+  <div class="form-group">
+    <label>Site Url</label>
+    <input type="text" class="site-root-url" />
+  </div>
 
   <input type="text" placeholder="login" class="site-un" value={ opts.login || '' } />
   <input type="text" placeholder="password" class="site-pw" value={ opts.password || '' } />
