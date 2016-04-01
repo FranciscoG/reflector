@@ -92,7 +92,7 @@ ipcMain.on('url-submit', function(event, url, un, pw) {
 var Screenshot = require('./lib/screenshot.js');
 ipcMain.on('capture-submit', function(event, options, path, filename) {
   
-  var ss = new Screenshot(options);
+  let ss = new Screenshot(options);
   if (path) {
     ss.filePath = path;
   }
